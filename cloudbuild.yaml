@@ -1,0 +1,17 @@
+steps:
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'install', '-DskipTests']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/spring-gcp-37822/cosmetology-manager', '.']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'cosmetology-manager'
+      - '--image'
+      - 'gcr.io/spring-gcp-37822/cosmetology-manager'
+      - '--platform'
+      - 'managed'
+      - '--region'
+      - 'europe-central2'
+      - '--allow-unauthenticated'
